@@ -114,10 +114,10 @@
         /* toggle active class on thisProduct.element */
 
         thisProduct.element.classList.toggle('active');
+      
+      })
 
-        console.log(this)
-
-      });
+      
     }
 
     initOrderForm() {
@@ -163,7 +163,7 @@
         for (let optionId in param.options) {
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          console.log(optionId, option)
+          console.log(optionId, option),
 
           // check if there is param with a name of paramId in formData and if it includes optionId
           if (formData[paramId] && formData[paramId].includes(optionId)) {
@@ -179,7 +179,7 @@
               price = price - option.price;
             }
           }
-  
+
         }
 
         // update calculated price in the HTML
