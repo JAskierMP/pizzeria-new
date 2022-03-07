@@ -69,8 +69,8 @@
   const settings = {
     amountWidget: {
       defaultValue: 1,
-      defaultMin: 1,
-      defaultMax: 9,
+      defaultMin: 0,
+      defaultMax: 10,
     }, // CODE CHANGED
     // CODE ADDED START
     cart: {
@@ -251,6 +251,7 @@
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
       thisWidget.setValue(settings.amountWidget.defaultValue); // przygotowujemy funkcje posrednik -> drugi akapit od konca
       thisWidget.initActions();
+      
 
       // console.log('AmountWidget:', thisWidget);
       console.log('constructor arguments:', element);
@@ -294,6 +295,7 @@
         event.preventDefault();
         thisWidget.setValue(thisWidget.input.value - 1);
 
+
       });
 
       thisWidget.linkIncrease.addEventListener('click', function (event) {
@@ -314,6 +316,7 @@
       const thisCart = this;
       thisCart.products = [];
       thisCart.getElements(element);
+      thisCart.initActions(element);
       console.log('new Cart', thisCart);
     }
 
@@ -321,6 +324,17 @@
       const thisCart = this;
       thisCart.dom = {};
       thisCart.dom.wrapper = element;
+
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+    }
+
+    initActions() {
+      const thisCart = this;
+      thisCart.dom.toggleTrigger.addEventListener('click', function (event) {
+        console.log(event);
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+
     }
   }
 
