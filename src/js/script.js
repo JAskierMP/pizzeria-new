@@ -99,7 +99,6 @@
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
 
-      // console.log('new Product', thisProduct);
     }
 
     renderInMenu() {
@@ -155,7 +154,6 @@
 
     initOrderForm() {
       const thisProduct = this;
-      console.log('initOrderForm');
 
       thisProduct.form.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -177,10 +175,9 @@
 
     processOrder() {
       const thisProduct = this;
-      console.log('processOrder');
+     
       // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData', formData);
 
       // set price to default price
       let price = thisProduct.data.price;
@@ -237,48 +234,48 @@
         thisProduct.processOrder();
       });
 
-
     }
   }
 
   class AmountWidget {
     constructor(element) {
       const thisWidget = this;
-
+   
+      thisWidget.getElements(element);
+      thisWidget.setValue(settings.amountWidget.defaultValue); 
+      thisWidget.initActions();
+    
+    }
+    
+    getElements(element){
+      const thisWidget = this;
+    
       thisWidget.element = element;
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
-      thisWidget.setValue(settings.amountWidget.defaultValue); // przygotowujemy funkcje posrednik -> drugi akapit od konca
-      thisWidget.initActions();
-      
-
-      // console.log('AmountWidget:', thisWidget);
-      console.log('constructor arguments:', element);
     }
-
     setValue(value) {
       const thisWidget = this;
       const newValue = parseInt(value);
-
+      const maxValue = settings.amountWidget.defaultMax;
+      const minValue = settings.amountWidget.defaultMin;
+    
       // TODO: Add validation
-      thisWidget.value = newValue;
-      thisWidget.input.value = thisWidget.value;
+  
       if (thisWidget.value !== newValue && !isNaN(newValue)) {
         thisWidget.value = newValue;
       }
-
-      const maxValue = settings.amountWidget.defaultMax;
-      const minValue = settings.amountWidget.defaultMin;
-      if (thisWidget.input.value > maxValue) {
-        thisWidget.input.value = maxValue;
+  
+      if (thisWidget.value > maxValue) {
+        thisWidget.value = maxValue;
       }
-      if (thisWidget.input.value < minValue) {
-        thisWidget.input.value = minValue;
+      if (thisWidget.value < minValue) {
+        thisWidget.value = minValue;
       }
+      thisWidget.input.value = thisWidget.value;
 
-
-      this.announce(); // informowanie produktu o zmianie -> wywyołanie eventu -> ostatnia linijka
+      this.announce(); 
     }
 
     initActions() {
@@ -334,7 +331,6 @@
         console.log(event);
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
-
     }
   }
 
@@ -363,7 +359,7 @@
 
       thisApp.initData();
       thisApp.initMenu();
-      thisApp.initCart(); //////////////////
+      thisApp.initCart(); 
     },
 
     initCart: function () {
@@ -374,7 +370,5 @@
   };
 
   app.init();
-
-
 
 }
