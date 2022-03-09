@@ -169,13 +169,14 @@
       thisProduct.cartButton.addEventListener('click', function (event) {
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
 
     }
 
     processOrder() {
       const thisProduct = this;
-     
+
       // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
       const formData = utils.serializeFormToObject(thisProduct.form);
 
@@ -221,7 +222,13 @@
       //multiply price by amount
       price *= thisProduct.amountWidget.value;
       // update calculated price in the HTML
+
+     // let priceSingle = thisProduct; //9.4 zapisanie danych zamawianego produktu -> cena jednostkowa -> ćwiczenie 
+      //priceSingle = thisProduct.priceElem.innerHTML;//
+      //price = thisProduct.priceSingle;//
+      let priceSingle = thisProduct.priceSingle;
       thisProduct.priceElem.innerHTML = price;
+      priceSingle = thisProduct.priceElem.innerHTML;
     }
 
     initAmountWidget() {
@@ -233,6 +240,26 @@
         console.log(event);
         thisProduct.processOrder();
       });
+    }
+
+    addToCart() {
+      const thisProduct = this;
+      app.cart.add(thisProduct.prepareCartProduct); //
+    }
+
+    prepareCartProduct() {
+      const thisProduct = this;
+      const productSummary = {
+
+        id: thisProduct.id,  //zapisanie danych zamawianego produktu -> podstawowe informacje
+        name: thisProduct.name,
+        amount: thisProduct.amount,
+        priceSingle: thisProduct.priceSingle,
+        price: thisProduct.priceSingle * thisProduct.amount,
+        params: {},
+      };
+
+      return productSummary;
 
     }
   }
@@ -240,16 +267,16 @@
   class AmountWidget {
     constructor(element) {
       const thisWidget = this;
-   
+
       thisWidget.getElements(element);
-      thisWidget.setValue(settings.amountWidget.defaultValue); 
+      thisWidget.setValue(settings.amountWidget.defaultValue);
       thisWidget.initActions();
-    
+
     }
-    
-    getElements(element){
+
+    getElements(element) {
       const thisWidget = this;
-    
+
       thisWidget.element = element;
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
@@ -260,13 +287,13 @@
       const newValue = parseInt(value);
       const maxValue = settings.amountWidget.defaultMax;
       const minValue = settings.amountWidget.defaultMin;
-    
+
       // TODO: Add validation
-  
+
       if (thisWidget.value !== newValue && !isNaN(newValue)) {
         thisWidget.value = newValue;
       }
-  
+
       if (thisWidget.value > maxValue) {
         thisWidget.value = maxValue;
       }
@@ -275,7 +302,7 @@
       }
       thisWidget.input.value = thisWidget.value;
 
-      this.announce(); 
+      this.announce();
     }
 
     initActions() {
@@ -332,6 +359,11 @@
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
     }
+
+    add(menuProduct) {
+      // const thisCart = this;
+      console.log('adding product', menuProduct);
+    }
   }
 
   const app = {
@@ -359,7 +391,7 @@
 
       thisApp.initData();
       thisApp.initMenu();
-      thisApp.initCart(); 
+      thisApp.initCart();
     },
 
     initCart: function () {
