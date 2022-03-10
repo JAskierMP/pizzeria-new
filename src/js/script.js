@@ -223,12 +223,11 @@
       price *= thisProduct.amountWidget.value;
       // update calculated price in the HTML
 
-     // let priceSingle = thisProduct; //9.4 zapisanie danych zamawianego produktu -> cena jednostkowa -> ćwiczenie 
-      //priceSingle = thisProduct.priceElem.innerHTML;//
-      //price = thisProduct.priceSingle;//
       let priceSingle = thisProduct.priceSingle;
+      thisProduct.priceSingle = thisProduct.priceElem.innerHTML,
+
       thisProduct.priceElem.innerHTML = price;
-      priceSingle = thisProduct.priceElem.innerHTML;
+
     }
 
     initAmountWidget() {
@@ -244,7 +243,7 @@
 
     addToCart() {
       const thisProduct = this;
-      app.cart.add(thisProduct.prepareCartProduct); //
+      app.cart.add(thisProduct.prepareCartProduct()); //
     }
 
     prepareCartProduct() {
@@ -252,15 +251,43 @@
       const productSummary = {
 
         id: thisProduct.id,  //zapisanie danych zamawianego produktu -> podstawowe informacje
-        name: thisProduct.name,
-        amount: thisProduct.amount,
+        name: thisProduct.data.name,
+        amount: thisProduct.amountWidget.value,
         priceSingle: thisProduct.priceSingle,
-        price: thisProduct.priceSingle * thisProduct.amount,
-        params: {},
+        price: thisProduct.priceSingle * thisProduct.amountWidget.value,
+        params: this.prepareCartProductParams(),
       };
 
       return productSummary;
+    }
+    prepareCartProductParams() {
+      const thisProduct = this;
 
+      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      const params = {};
+      // for every category (param)...
+      for (let paramId in thisProduct.data.params) {
+        // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+        const param = thisProduct.data.params[paramId];
+        params[paramId] = {
+          label: param.label,
+          options: {}
+        };
+        // for every option in this category
+        for (let optionId in param.options) {
+          // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+          const option = param.options[optionId];
+
+          // check if there is param with a name of paramId in formData and if it includes optionId
+          const optionSelected = (formData[paramId] && formData[paramId].includes(optionId));
+          if (optionSelected) {
+            // option is selected!
+            params[paramId].options = optionId;
+          }
+        }
+      }
+      return params;
     }
   }
 
@@ -348,8 +375,8 @@
       const thisCart = this;
       thisCart.dom = {};
       thisCart.dom.wrapper = element;
-
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+      thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
     }
 
     initActions() {
@@ -361,8 +388,14 @@
     }
 
     add(menuProduct) {
-      // const thisCart = this;
+      const thisCart = this;
       console.log('adding product', menuProduct);
+
+      const generatedHTML = templates.menuProduct(thisCart.data);
+      thisCart.element = utils.createDOMFromHTML(generatedHTML);
+      const generatedDOM = thisCart.element;
+      thisCart.dom.productList.appendChild(generatedDOM);
+
     }
   }
 
