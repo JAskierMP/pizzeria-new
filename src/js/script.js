@@ -390,14 +390,30 @@
 
     add(menuProduct) {
       const thisCart = this;
-      const generatedDOM = menuProduct;
-      const generatedHTML = templates.cartProduct(generatedDOM);
-      thisCart.element = utils.createDOMFromHTML(generatedHTML);
-      const cartContainer = document.querySelector(select.cart.productList);
-      cartContainer.appendChild(thisCart.element);
+      const generatedHTML = templates.cartProduct(menuProduct);
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+      thisCart.element = document.querySelector(select.cart.productList);
+      thisCart.element.appendChild(generatedDOM);
+      thisCart.products.push(menuProduct);
+      console.log('thisCart.products', thisCart.products);
 
     }
   }
+  /*class CartProduct {
+    constructor(element, menuProduct) {
+      const thisCartProduct = this;
+      thisCartProduct = {
+        thisCartProduct.id = menuProduct.id
+      };
+
+    
+      
+    }
+  }*/
+
+
+
+
 
   const app = {
     initMenu: function () {
