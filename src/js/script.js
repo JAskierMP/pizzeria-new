@@ -394,26 +394,59 @@
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       thisCart.element = document.querySelector(select.cart.productList);
       thisCart.element.appendChild(generatedDOM);
-      thisCart.products.push(menuProduct);
+      thisCart.products.push(new CartProduct(generatedDOM, menuProduct));
       console.log('thisCart.products', thisCart.products);
 
     }
   }
-  /*class CartProduct {
-    constructor(element, menuProduct) {
+  class CartProduct {
+    constructor(element, menuProduct) { //9.5 ->cwiczenie 2
+      this.getElements(element);
+
       const thisCartProduct = this;
-      thisCartProduct = {
-        thisCartProduct.id = menuProduct.id
+
+      thisCartProduct.id = menuProduct.id,
+      thisCartProduct.name = menuProduct.name,
+      thisCartProduct.amount = menuProduct.amount,
+      thisCartProduct.priceSingle = menuProduct.priceSingle,
+      thisCartProduct.price = menuProduct.price,
+      thisCartProduct.params = menuProduct.params,
+
+      console.log('Cart', thisCartProduct);
+      console.log('menuProduct:', menuProduct);
+
+      thisCartProduct.initAmountWidget();
+    }
+
+    getElements(element) {
+      const thisCartProduct = this;
+      //thisCartProduct.dom = {};
+      thisCartProduct.dom = {
+
+        amountWidget: select.cartProduct.amountWidget,
+        price: select.cartProduct.price,
+        edit: select.cartProduct.edit,
+        remove: select.cartProduct.remove,
       };
 
-    
-      
+      thisCartProduct.dom.wrapper = element;
     }
-  }*/
 
+    initAmountWidget() { //OBSŁUGA WIDGETU ILOŚCI SZTUK cala ta funkcja
+      const thisCartProduct = this;
 
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.amountWidgetElem);
 
+      thisCartProduct.amountWidgetElem.addEventListener('updated', function (event) {
 
+        thisCartProduct.amount * thisCartProduct.priceSingle == thisCartProduct.price;
+        thisCartProduct.price == thisCartProduct.amountWidget * thisCartProduct.priceSingle;
+
+        thisCartProduct.processOrder();
+      });
+    }
+
+  }
 
   const app = {
     initMenu: function () {
