@@ -309,6 +309,7 @@
       thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+
     }
     setValue(value) {
       const thisWidget = this;
@@ -423,10 +424,10 @@
       //thisCartProduct.dom = {};
       thisCartProduct.dom = {
 
-        amountWidget: select.cartProduct.amountWidget,
-        price: select.cartProduct.price,
-        edit: select.cartProduct.edit,
-        remove: select.cartProduct.remove,
+        amountWidget: document.querySelector(select.cartProduct.amountWidget),
+        price: document.querySelector(select.cartProduct.price),
+        edit: document.querySelector(select.cartProduct.edit),
+        remove: document.querySelector(select.cartProduct.remove),
       };
 
       thisCartProduct.dom.wrapper = element;
@@ -435,14 +436,16 @@
     initAmountWidget() { //OBSŁUGA WIDGETU ILOŚCI SZTUK cala ta funkcja
       const thisCartProduct = this;
 
-      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.amountWidgetElem);
+      thisCartProduct.amount = new AmountWidget(document.querySelector(select.cartProduct.amountWidget));
 
-      thisCartProduct.amountWidgetElem.addEventListener('updated', function (event) {
 
-        thisCartProduct.amount * thisCartProduct.priceSingle == thisCartProduct.price;
-        thisCartProduct.price == thisCartProduct.amountWidget * thisCartProduct.priceSingle;
+      thisCartProduct.dom.amountWidget.addEventListener('updated', function (event) {
 
-        thisCartProduct.processOrder();
+        thisCartProduct.amount == thisCartProduct.dom.amountWidget;
+        thisCartProduct.price == thisCartProduct.dom.price;
+
+        thisCartProduct.price == thisCartProduct.dom.amountWidget * thisCartProduct.priceSingle;
+
       });
     }
 
