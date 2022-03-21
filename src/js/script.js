@@ -436,30 +436,20 @@
     initAmountWidget() { //OBSŁUGA WIDGETU ILOŚCI SZTUK cala ta funkcja
       const thisCartProduct = this;
 
-      thisCartProduct.amount = new AmountWidget(thisCartProduct.dom.amountWidget, thisCartProduct.amount);
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget, thisCartProduct.amount);
 
       console.log('thisCartProduct.amount',thisCartProduct.amount);
 
 
       thisCartProduct.dom.amountWidget.addEventListener('updated', function (event) {
-        console.log(event);
-      
+        console.log(event);  
         
-        
-        thisCartProduct.amount = thisCartProduct.dom.amountWidget;
-      
+        thisCartProduct.amount = thisCartProduct.amountWidget.value;
 
-        thisCartProduct.dom.price = thisCartProduct.amountWidget.value * thisCartProduct.priceSingle;
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.amountWidget.value * thisCartProduct.priceSingle;
 
         console.log ('thisCartProduct.amount', thisCartProduct.amountWidget.value);
      
-        
-        
-        //thisCartProduct.amount == thisCartProduct.amountWidget.value ;
-
-        //thisCartProduct.price = thisCartProduct.dom.price;
-
-        //thisCartProduct.amountWidgetvalue  == thisCartProduct.amountWidgetvalue * thisCartProduct.priceSingle;
 
       });
 
