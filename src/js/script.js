@@ -149,7 +149,6 @@
         thisProduct.element.classList.toggle('active');
 
       });
-
     }
 
     initOrderForm() {
@@ -334,11 +333,9 @@
     initActions() {
       const thisWidget = this;
 
-
       thisWidget.input.addEventListener('change', function (event) {
         console.log(event);
         thisWidget.setValue(thisWidget.input.value);
-
       });
 
       thisWidget.linkDecrease.addEventListener('click', function (event) {
@@ -354,7 +351,7 @@
 
     announce() {
       const thisWidget = this;
-      const event = new CustomEvent ('updated', {
+      const event = new CustomEvent('updated', {
         bubbles: true
       });
 
@@ -389,10 +386,10 @@
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
 
-      thisCart.dom.productList.addEventListener('updated', function(){
+      thisCart.dom.productList.addEventListener('updated', function () {
         thisCart.update();
 
-        console.log ('update',thisCart.update);
+        console.log('update', thisCart.update);
       });
 
     }
@@ -409,37 +406,29 @@
 
     update() {
       const thisCart = this;
-      const deliveryfee = 20;
+      let deliveryfee = 20;
       let totalNumber = 0;
       let subtotalPrice = 0;
 
       for (let product of thisCart.products) {
-        totalNumber = product['amount'] + totalNumber;
-        subtotalPrice = product['price'] + subtotalPrice;
-        thisCart.dom.totalNumber.innerHTML = product['amount'];
+        totalNumber = product.amount + totalNumber;
+        subtotalPrice = product.price + subtotalPrice;
       }
-      
 
-     // console.log('thisCart.totalPrice', thisCart.totalPrice);
       if (subtotalPrice == 0) {
         thisCart.totalPrice = 0;
+        deliveryfee = 0;
       }
-      //thisCart.totalPrice = subtotalPrice + deliveryfee;
-  
+      
+      thisCart.dom.totalNumber.innerHTML = totalNumber;
       thisCart.dom.deliveryFee.innerHTML = deliveryfee;
       thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
+      thisCart.totalPrice = subtotalPrice + deliveryfee;
+      thisCart.dom.totalPrice.innerHTML = thisCart.totalPrice;
 
       for (let priceElement of thisCart.dom.totalPrice) {
-        thisCart.totalPrice = subtotalPrice + deliveryfee;
         priceElement.innerHTML = thisCart.totalPrice;
-        thisCart.dom.totalPrice.innerHTML = thisCart.totalPrice; 
       }
-    
-
-      //console.log(thisCart.dom.totalPrice);
-      //console.log('totalNumber', totalNumber);
-     //console.log('subtotalPrice', subtotalPrice);
-      console.log('thisCart.totalPrice', thisCart.totalPrice);
     }
   }
 
@@ -447,14 +436,14 @@
     constructor(element, menuProduct) { //9.5 ->cwiczenie 2
       this.getElements(element);
       const thisCartProduct = this;
-      thisCartProduct.id = menuProduct.id,
-        thisCartProduct.name = menuProduct.name,
-        thisCartProduct.amount = menuProduct.amount,
-        thisCartProduct.priceSingle = menuProduct.priceSingle,
-        thisCartProduct.price = menuProduct.price,
-        thisCartProduct.params = menuProduct.params,
+      thisCartProduct.id = menuProduct.id;
+      thisCartProduct.name = menuProduct.name;
+      thisCartProduct.amount = menuProduct.amount;
+      thisCartProduct.priceSingle = menuProduct.priceSingle;
+      thisCartProduct.price = menuProduct.price;
+      thisCartProduct.params = menuProduct.params;
 
-        thisCartProduct.initAmountWidget();
+      thisCartProduct.initAmountWidget();
     }
 
     getElements(element) {
@@ -475,12 +464,13 @@
 
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget, thisCartProduct.amount);
 
-      thisCartProduct.dom.amountWidget.addEventListener('updated', function (event) {
-        console.log(event);
+      thisCartProduct.dom.amountWidget.addEventListener('updated', function () {
+        console.log(thisCartProduct.dom.price);
+        const newPrice = thisCartProduct.amountWidget.value * thisCartProduct.priceSingle;
 
         thisCartProduct.amount = thisCartProduct.amountWidget.value;
-
-        thisCartProduct.dom.price.innerHTML = thisCartProduct.amountWidget.value * thisCartProduct.priceSingle;
+        thisCartProduct.price = newPrice;
+        thisCartProduct.dom.price.innerHTML = newPrice;
 
       });
     }
