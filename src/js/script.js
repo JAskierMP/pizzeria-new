@@ -393,7 +393,7 @@
         console.log('update', thisCart.update);
       });
 
-      thisCart.dom.productList.addEventListener('removed', function (event) {           //
+      thisCart.dom.productList.addEventListener('remove', function (event) {           //
         thisCart.remove(event.detail.cartProduct);
 
         console.log('remove', thisCart.remove(event.detail.cartProduct));
@@ -440,17 +440,16 @@
 
     remove(cartProduct) {
       const thisCart = this;
-      const removedItem = thisCart.dom.wrapper.querySelector(select.cartProduct.remove);
+      const removedItem = cartProduct.dom.wrapper;
       removedItem.remove();
-      console.log('removedItem', removedItem.remove());
+      console.log(thisCart.products);
 
-      const allRemovedValues = thisCart.products.splice(removedItem);
+      const allRemovedValues = thisCart.products.splice(removedItem); // pobranie indexu usuwanego produktu cartProduct z tablicy
       thisCart.update();
-      
-      thisCart.products = thisCart.products - allRemovedValues;
 
+      console.log('removedItem:', removedItem);
     }
-    
+
   }
 
   class CartProduct {
