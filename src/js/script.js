@@ -396,7 +396,6 @@
       thisCart.dom.productList.addEventListener('remove', function (event) {           //
         thisCart.remove(event.detail.cartProduct);
 
-        console.log('remove', thisCart.remove(event.detail.cartProduct));
       });
 
     }
@@ -444,7 +443,8 @@
       removedItem.remove();
       console.log(thisCart.products);
 
-      const allRemovedValues = thisCart.products.splice(removedItem); // pobranie indexu usuwanego produktu cartProduct z tablicy
+      const allRemovedValues = thisCart.products.splice(removedItem, 1); 
+     
       thisCart.update();
 
       console.log('removedItem:', removedItem);
