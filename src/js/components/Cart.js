@@ -14,7 +14,6 @@ class Cart {
     const thisCart = this;
     thisCart.dom = {};
     thisCart.dom.wrapper = element;
-    //console.log(element);
     thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
     thisCart.dom.deliveryFee = thisCart.dom.wrapper.querySelector(select.cart.deliveryFee);
@@ -24,14 +23,11 @@ class Cart {
     thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form); //
     thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address); //
     thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone); //
-
-    console.log(thisCart.dom.address);
   }
 
   initActions() {
     const thisCart = this;
-    thisCart.dom.toggleTrigger.addEventListener('click', function (event) {
-      console.log(event);
+    thisCart.dom.toggleTrigger.addEventListener('click', function () {
       thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
     });
 
@@ -73,6 +69,8 @@ class Cart {
     for (let product of thisCart.products) {
       totalNumber = product.amount + totalNumber;
       subtotalPrice = product.price + subtotalPrice;
+      console.log(subtotalPrice);
+      console.log(thisCart.products);
     }
 
     if (subtotalPrice == 0) {
@@ -97,7 +95,6 @@ class Cart {
     const thisCart = this;
     const removedItem = cartProduct.dom.wrapper;
     removedItem.remove();
-    console.log(removedItem);
 
     const index = thisCart.products.indexOf(cartProduct);
 

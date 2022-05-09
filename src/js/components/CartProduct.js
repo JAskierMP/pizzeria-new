@@ -11,6 +11,7 @@ class CartProduct {
     thisCartProduct.priceSingle = menuProduct.priceSingle;
     thisCartProduct.price = menuProduct.price;
     thisCartProduct.params = menuProduct.params;
+    console.log(menuProduct);
 
     thisCartProduct.initAmountWidget();
     thisCartProduct.initActions();
@@ -80,6 +81,7 @@ class CartProduct {
       price: thisCartProduct.price,
       params: thisCartProduct.params,
     };
+    console.log(settings.params);
     console.log(settings);
     return settings;
 
