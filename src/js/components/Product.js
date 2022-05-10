@@ -1,7 +1,7 @@
 
-import { select, templates, classNames } from '../settings.js'; //
-import { utils } from '../utils.js'; //
-import AmountWidget from './AmountWidget.js'; //
+import { select, templates, classNames } from '../settings.js'; 
+import { utils } from '../utils.js'; 
+import AmountWidget from './AmountWidget.js'; 
 
 class Product {
   constructor(id, data) {
@@ -23,7 +23,7 @@ class Product {
 
     /* generate html based on template  */
     const generatedHTML = templates.menuProduct(thisProduct.data);
-    // console.log(generatedHTML);
+    
     /*  create element using utils.createElementFromHTML */
     thisProduct.element = utils.createDOMFromHTML(generatedHTML);
 
@@ -153,18 +153,13 @@ class Product {
 
     thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
 
-    thisProduct.amountWidgetElem.addEventListener('updated', function (event) {
-      console.log(event);
+    thisProduct.amountWidgetElem.addEventListener('updated', function () {
       thisProduct.processOrder();
     });
   }
 
   addToCart() {
     const thisProduct = this;
-    //app.cart.add(thisProduct.prepareCartProduct()); //
-
-    thisProduct.name = thisProduct.data.name;  ///
-    thisProduct.amount = thisProduct.amountWidget.value; ////
 
     const event = new CustomEvent('add-to-cart', {
       bubbles: true,
@@ -172,18 +167,14 @@ class Product {
         product: thisProduct.prepareCartProduct(),
       }
     });
-    console.log(event.detail.product);
     thisProduct.element.dispatchEvent(event);
-  
   }
-
-
 
   prepareCartProduct() {
     const thisProduct = this;
     const productSummary = {
 
-      id: thisProduct.id,  //zapisanie danych zamawianego produktu -> podstawowe informacje
+      id: thisProduct.id,  
       name: thisProduct.data.name,
       amount: thisProduct.amountWidget.value,
       priceSingle: thisProduct.priceSingle,
@@ -201,8 +192,8 @@ class Product {
     // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
     const formData = utils.serializeFormToObject(thisProduct.form);
     const params = {};
-    console.log(formData);
-    // for every category (param)...
+  
+    // for every category (param)..
     for (let paramId in thisProduct.data.params) {
       // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
       const param = thisProduct.data.params[paramId];

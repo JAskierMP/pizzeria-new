@@ -1,4 +1,4 @@
-import {settings, select} from '../settings.js'; //
+import {settings, select} from '../settings.js'; 
 
 class AmountWidget {
   constructor(element, startValue) {
@@ -7,7 +7,6 @@ class AmountWidget {
     thisWidget.getElements(element);
     thisWidget.setValue(startValue || settings.amountWidget.defaultValue);
     thisWidget.initActions();
-
   }
 
   getElements(element) {
@@ -42,8 +41,8 @@ class AmountWidget {
   initActions() {
     const thisWidget = this;
 
-    thisWidget.input.addEventListener('change', function (event) {
-      console.log(event);
+    thisWidget.input.addEventListener('change', function () {
+      
       thisWidget.setValue(thisWidget.input.value);
     });
 
@@ -68,4 +67,4 @@ class AmountWidget {
   }
 }
 
-export default AmountWidget; //
+export default AmountWidget; 

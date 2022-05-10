@@ -1,8 +1,8 @@
-import {select} from '../settings.js'; //
-import AmountWidget from './AmountWidget.js'; //
+import {select} from '../settings.js'; 
+import AmountWidget from './AmountWidget.js'; 
 
 class CartProduct {
-  constructor(element, menuProduct) { //9.5 ->cwiczenie 2
+  constructor(element, menuProduct) { 
     this.getElements(element);
     const thisCartProduct = this;
     thisCartProduct.id = menuProduct.id;
@@ -11,7 +11,7 @@ class CartProduct {
     thisCartProduct.priceSingle = menuProduct.priceSingle;
     thisCartProduct.price = menuProduct.price;
     thisCartProduct.params = menuProduct.params;
-    console.log(menuProduct);
+    
 
     thisCartProduct.initAmountWidget();
     thisCartProduct.initActions();
@@ -36,7 +36,7 @@ class CartProduct {
     thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget, thisCartProduct.amount);
 
     thisCartProduct.dom.amountWidget.addEventListener('updated', function () {
-      console.log(thisCartProduct.dom.price);
+      
       const newPrice = thisCartProduct.amountWidget.value * thisCartProduct.priceSingle;
 
       thisCartProduct.amount = thisCartProduct.amountWidget.value;
@@ -53,7 +53,6 @@ class CartProduct {
         cartProduct: thisCartProduct,
       },
     });
-    //console.log(thisCartProduct.remove);
 
     thisCartProduct.dom.wrapper.dispatchEvent(event);
   }
@@ -81,11 +80,10 @@ class CartProduct {
       price: thisCartProduct.price,
       params: thisCartProduct.params,
     };
-    console.log(settings.params);
-    console.log(settings);
+   
     return settings;
 
   }
 }
 
-export default CartProduct; //
+export default CartProduct; 

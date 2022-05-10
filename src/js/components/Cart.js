@@ -1,6 +1,6 @@
-import {settings, select, classNames, templates} from '../settings.js'; //classNames dodałem
-import CartProduct from './CartProduct.js'; //
-import {utils} from '../utils.js'; //
+import {settings, select, classNames, templates} from '../settings.js'; 
+import CartProduct from './CartProduct.js'; 
+import {utils} from '../utils.js'; 
 
 class Cart {
   constructor(element) {
@@ -20,9 +20,9 @@ class Cart {
     thisCart.dom.subtotalPrice = thisCart.dom.wrapper.querySelector(select.cart.subtotalPrice);
     thisCart.dom.totalPrice = thisCart.dom.wrapper.querySelectorAll(select.cart.totalPrice);
     thisCart.dom.totalNumber = thisCart.dom.wrapper.querySelector(select.cart.totalNumber);
-    thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form); //
-    thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address); //
-    thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone); //
+    thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form); 
+    thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address); 
+    thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone); 
   }
 
   initActions() {
@@ -33,8 +33,6 @@ class Cart {
 
     thisCart.dom.productList.addEventListener('updated', function () {
       thisCart.update();
-
-      console.log('update', thisCart.update);
     });
 
     thisCart.dom.productList.addEventListener('remove', function (event) {
@@ -43,7 +41,7 @@ class Cart {
     });
 
     thisCart.dom.form.addEventListener('submit', function (event) {
-      event.preventDefault();                             //
+      event.preventDefault();                             
       thisCart.sendOrder();
 
     });
@@ -69,8 +67,6 @@ class Cart {
     for (let product of thisCart.products) {
       totalNumber = product.amount + totalNumber;
       subtotalPrice = product.price + subtotalPrice;
-      console.log(subtotalPrice);
-      console.log(thisCart.products);
     }
 
     if (subtotalPrice == 0) {
@@ -103,26 +99,23 @@ class Cart {
     }
 
     thisCart.update();
-
-    console.log('removedItem:', removedItem);
   }
   sendOrder() {
     const thisCart = this;
     const url = settings.db.url + '/' + settings.db.orders;
     const payload = {
-      address: thisCart.dom.address.value, //string
-      phone: thisCart.dom.phone.value, //string
+      address: thisCart.dom.address.value, 
+      phone: thisCart.dom.phone.value, 
       totalPrice: thisCart.totalPrice,
       subtotalPrice: thisCart.subtotalPrice,
       totalNumber: thisCart.totalNumber,
-      deliveryFee: thisCart.dom.deliveryFee.innerHTML, //string
+      deliveryFee: thisCart.dom.deliveryFee.innerHTML, 
       products: [],
     };
-    console.log(payload);
+    
 
     for (let prod of thisCart.products) {
       payload.products.push(prod.getData());
-      console.log(prod);
     }
     const options = {
       method: 'POST',
