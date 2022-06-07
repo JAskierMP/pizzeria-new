@@ -115,7 +115,6 @@ const app = {
 
   initBooking: function() {
     const bookingWidgetContainer = document.querySelector(select.containerOf.booking);
-    //console.log(bookingWidgetContainer);
     new Booking(bookingWidgetContainer);
   }
 };
